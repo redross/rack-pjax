@@ -29,6 +29,7 @@ module Rack
         end
 
         body.close if body.respond_to?(:close)
+        new_body = new_body.to_s.gsub(/\"\\\\/, "\\")
         body = [new_body]
 
         headers['Content-Length'] &&= bytesize(new_body).to_s
