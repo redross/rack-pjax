@@ -36,12 +36,12 @@ describe Rack::Pjax do
       body.should == "World!"
     end
 
-    it "should handle self closing tags with HTML5 elements" do
+    it "should not handle self closing tags with HTML5 elements since not parsing as XML" do
       self.class.app = generate_app(:body => '<html><body><div data-pjax-container><article>World!<img src="test.jpg" /></article></div></body></html>')
 
       get "/", {}, {"HTTP_X_PJAX" => "true"}
 
-      body.should == '<article>World!<img src="test.jpg" /></article>'
+      body.should == '<article>World!<img src="test.jpg"></article>'
     end
 
     it "should handle nesting of elements inside anchor tags" do
